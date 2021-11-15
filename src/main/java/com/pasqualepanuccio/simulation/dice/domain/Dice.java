@@ -20,6 +20,6 @@ public class Dice {
     }
 
     public int roll() {
-        return new Random().nextInt(sides) + minSidesNumber;
+        return new Random().nextInt(sides) + 1;
     }
 }
