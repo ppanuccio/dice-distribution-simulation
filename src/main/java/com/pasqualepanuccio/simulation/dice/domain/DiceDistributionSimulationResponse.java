@@ -1,21 +1,41 @@
 package com.pasqualepanuccio.simulation.dice.domain;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class DiceDistributionSimulationResponse {
 
     private final Map<Integer, Integer> map;
+    private String errorMessage;
 
-    public DiceDistributionSimulationResponse(Map<Integer, Integer> map) {
+    private DiceDistributionSimulationResponse(Map<Integer, Integer> map, String errorMessage) {
         this.map = map;
+        this.errorMessage = errorMessage;
+    }
+
+    public static DiceDistributionSimulationResponse ok(Map<Integer, Integer> map) {
+        return new DiceDistributionSimulationResponse(map, "");
+    }
+
+    public static DiceDistributionSimulationResponse ko(String errorMessage) {
+        return new DiceDistributionSimulationResponse(Collections.emptyMap(), errorMessage);
     }
 
     public Map<Integer, Integer> getMap() {
         return map;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public boolean isKo() {
+        return StringUtils.isNotBlank(errorMessage);
     }
 
     @Override

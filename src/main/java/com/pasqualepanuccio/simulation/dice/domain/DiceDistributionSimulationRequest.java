@@ -9,13 +9,13 @@ public class DiceDistributionSimulationRequest {
     private final int minimumDiceSides;
     private final int diceSides;
     private final int numberOfDice;
-    private final int numberOfExecution;
+    private final int numberOfRolls;
 
-    public DiceDistributionSimulationRequest(int numberOfMinimumDiceSides, int numberOfDiceSides, int numberOfDice, int numberOfExecution) {
+    public DiceDistributionSimulationRequest(int numberOfMinimumDiceSides, int numberOfDiceSides, int numberOfDice, int numberOfRolls) {
         this.minimumDiceSides = numberOfMinimumDiceSides;
         this.diceSides = numberOfDiceSides;
         this.numberOfDice = numberOfDice;
-        this.numberOfExecution = numberOfExecution;
+        this.numberOfRolls = numberOfRolls;
     }
 
     public int getMinimumDiceSides() {
@@ -30,8 +30,8 @@ public class DiceDistributionSimulationRequest {
         return numberOfDice;
     }
 
-    public int getNumberOfExecution() {
-        return numberOfExecution;
+    public int getNumberOfRolls() {
+        return numberOfRolls;
     }
 
     @Override

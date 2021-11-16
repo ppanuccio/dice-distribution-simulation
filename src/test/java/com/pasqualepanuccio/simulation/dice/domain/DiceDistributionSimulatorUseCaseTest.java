@@ -8,17 +8,47 @@ public class DiceDistributionSimulatorUseCaseTest {
     private DiceDistributionSimulatorUseCase useCase = new DiceDistributionSimulatorUseCase();
 
     @Test
-    void distribution_simulation_use_case() {
-        final int numberOfDice = 3;
+    void number_of_dice_must_be_at_least_one() {
+        final int numberOfDice = 0;
         final int numberOfDiceSides = 6;
         final int numberOfMinimumDiceSides = 1;
-        final int numberOfExecution = 10;
-        int maxValue = numberOfDice * numberOfDiceSides;
-        int minValue = numberOfDice;
-        DiceDistributionSimulationRequest request = new DiceDistributionSimulationRequest(numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfExecution);
+        final int numberOfRolls = 10;
+        DiceDistributionSimulationRequest request = new DiceDistributionSimulationRequest(
+                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls);
 
         final DiceDistributionSimulationResponse response = useCase.run(request);
 
-        Assertions.assertThat(response.getMap().entrySet().size()).isEqualTo(maxValue - minValue + 1);
+        Assertions.assertThat(response.isKo()).isTrue();
+        Assertions.assertThat(response.getErrorMessage()).isEqualTo("The number of dice must be at least one!");
+    }
+
+    @Test
+    void number_of_rolls_must_be_at_least_one() {
+        final int numberOfDice = 1;
+        final int numberOfDiceSides = 6;
+        final int numberOfMinimumDiceSides = 1;
+        final int numberOfRolls = 0;
+        DiceDistributionSimulationRequest request = new DiceDistributionSimulationRequest(
+                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls);
+
+        final DiceDistributionSimulationResponse response = useCase.run(request);
+
+        Assertions.assertThat(response.isKo()).isTrue();
+        Assertions.assertThat(response.getErrorMessage()).isEqualTo("The number of rolls must be at least one!");
+    }
+
+    @Test
+    void the_sides_of_a_dice_must_be_at_least_four() {
+        final int numberOfDice = 1;
+        final int numberOfDiceSides = 3;
+        final int numberOfMinimumDiceSides = 1;
+        final int numberOfRolls = 1;
+        DiceDistributionSimulationRequest request = new DiceDistributionSimulationRequest(
+                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls);
+
+        final DiceDistributionSimulationResponse response = useCase.run(request);
+
+        Assertions.assertThat(response.isKo()).isTrue();
+        Assertions.assertThat(response.getErrorMessage()).isEqualTo("The sides of a dice must be at least four!");
     }
 }
