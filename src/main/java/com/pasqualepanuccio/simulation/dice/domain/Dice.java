@@ -19,6 +19,10 @@ public class Dice {
         return sides;
     }
 
+    public int getMinSidesNumber() {
+        return minSidesNumber;
+    }
+
     public int roll() {
         return new Random().nextInt(sides) + 1;
     }
