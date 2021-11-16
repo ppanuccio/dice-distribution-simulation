@@ -34,8 +34,12 @@ public class DiceDistributionSimulationResponse {
         return errorMessage;
     }
 
+    public boolean isOk() {
+        return StringUtils.isBlank(errorMessage);
+    }
+
     public boolean isKo() {
-        return StringUtils.isNotBlank(errorMessage);
+        return !isOk();
     }
 
     @Override
