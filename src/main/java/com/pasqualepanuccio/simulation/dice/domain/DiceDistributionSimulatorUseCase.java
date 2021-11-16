@@ -9,16 +9,17 @@ import java.util.stream.IntStream;
 public class DiceDistributionSimulatorUseCase {
 
     public DiceDistributionSimulationResponse run(DiceDistributionSimulationRequest request) {
-        Map<Integer, Integer> resultMap = initialiseResultMap(request.getNumberOfDice(), request.getDiceSides());
         final List<Dice> dice = diceList(request);
-        executeSimulation(request, resultMap, dice);
+        final Map<Integer, Integer> resultMap = executeSimulation(request, dice);
         return new DiceDistributionSimulationResponse(resultMap);
     }
 
-    private void executeSimulation(DiceDistributionSimulationRequest request, Map<Integer, Integer> resultMap, List<Dice> dice) {
+    private Map<Integer, Integer> executeSimulation(DiceDistributionSimulationRequest request, List<Dice> dice) {
+        Map<Integer, Integer> resultMap = initialiseResultMap(request.getNumberOfDice(), request.getDiceSides());
         IntStream.range(0, request.getNumberOfExecution())
                 .mapToObj(l -> new DiceRollExecution(dice).execute())
                 .forEach(i -> resultMap.merge(i, 1, Integer::sum));
+        return resultMap;
     }
 
     private List<Dice> diceList(DiceDistributionSimulationRequest request) {
@@ -30,7 +31,8 @@ public class DiceDistributionSimulatorUseCase {
     }
 
     private Map<Integer, Integer> initialiseResultMap(int numberOfDice, int diceSides) {
-        return IntStream.range(numberOfDice, (numberOfDice * diceSides) + 1)
+        final int maxSumValue = numberOfDice * diceSides;
+        return IntStream.range(numberOfDice, maxSumValue + 1)
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), i -> 0));
     }
