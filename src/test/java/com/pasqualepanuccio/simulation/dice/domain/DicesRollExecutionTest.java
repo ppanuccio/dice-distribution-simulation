@@ -7,13 +7,15 @@ import java.util.List;
 
 class DicesRollExecutionTest {
 
+    private final NumberGenerator numberGenerator = new FakeRandomGenerator();
+
     @Test
     void dice_roll_execution() {
         final int sides = 6;
         final int minSidesNumber = 4;
         final List<Dice> dice = List.of(
-                new Dice(minSidesNumber, sides),
-                new Dice(minSidesNumber, sides)
+                new Dice(minSidesNumber, sides, numberGenerator),
+                new Dice(minSidesNumber, sides, numberGenerator)
         );
         final DiceRollExecution diceRollExecution = new DiceRollExecution(dice);
 

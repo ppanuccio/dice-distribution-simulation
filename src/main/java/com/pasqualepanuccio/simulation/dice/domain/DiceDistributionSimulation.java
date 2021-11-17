@@ -8,12 +8,14 @@ import java.util.stream.IntStream;
 
 public class DiceDistributionSimulation {
     private final int minimumDiceSides, diceSides, numberOfDice, numberOfRolls;
+    private NumberGenerator numberGenerator;
 
-    public DiceDistributionSimulation(int minimumDiceSides, int diceSides, int numberOfDice, int numberOfRolls) {
+    public DiceDistributionSimulation(int minimumDiceSides, int diceSides, int numberOfDice, int numberOfRolls, NumberGenerator numberGenerator) {
         this.minimumDiceSides = minimumDiceSides;
         this.diceSides = diceSides;
         this.numberOfDice = numberOfDice;
         this.numberOfRolls = numberOfRolls;
+        this.numberGenerator = numberGenerator;
     }
 
     public int getMinimumDiceSides() {
@@ -32,8 +34,12 @@ public class DiceDistributionSimulation {
         return numberOfRolls;
     }
 
+    public NumberGenerator getNumberGenerator() {
+        return numberGenerator;
+    }
+
     public Map<Integer, Integer> execute() {
-        final List<Dice> dice = diceList(numberOfDice, minimumDiceSides, diceSides);
+        final List<Dice> dice = diceList(numberOfDice, minimumDiceSides, diceSides, numberGenerator);
         Map<Integer, Integer> resultMap = initialiseResultMap(numberOfDice, diceSides);
         IntStream.range(0, numberOfRolls)
                 .mapToObj(l -> new DiceRollExecution(dice).execute())
@@ -41,11 +47,11 @@ public class DiceDistributionSimulation {
         return resultMap;
     }
 
-    private List<Dice> diceList(int numberOfDice, int minimumDiceSides, int diceSides) {
+    private List<Dice> diceList(int numberOfDice, int minimumDiceSides, int diceSides, NumberGenerator numberGenerator) {
         return IntStream.range(0, numberOfDice)
                 .mapToObj(i -> new Dice(
                         minimumDiceSides,
-                        diceSides))
+                        diceSides, numberGenerator))
                 .collect(Collectors.toList());
     }
 

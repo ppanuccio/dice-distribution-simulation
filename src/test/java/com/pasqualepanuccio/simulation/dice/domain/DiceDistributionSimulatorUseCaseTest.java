@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 public class DiceDistributionSimulatorUseCaseTest {
 
-    private DiceDistributionSimulatorUseCase useCase = new DiceDistributionSimulatorUseCase();
+    private NumberGenerator fakeRandomGenerator = new FakeRandomGenerator();
+    private DiceDistributionSimulatorUseCase useCase = new DiceDistributionSimulatorUseCase(fakeRandomGenerator);
 
     @Test
     void number_of_dice_must_be_at_least_one() {

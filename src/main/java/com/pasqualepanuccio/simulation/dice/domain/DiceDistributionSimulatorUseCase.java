@@ -4,6 +4,16 @@ import java.util.Map;
 
 public class DiceDistributionSimulatorUseCase {
 
+    private final NumberGenerator numberGenerator;
+
+    public DiceDistributionSimulatorUseCase(NumberGenerator numberGenerator) {
+        this.numberGenerator = numberGenerator;
+    }
+
+    public NumberGenerator getNumberGenerator() {
+        return numberGenerator;
+    }
+
     public DiceDistributionSimulationResponse run(DiceDistributionSimulationRequest request) {
         if (request.getNumberOfDice() < 1) {
             return DiceDistributionSimulationResponse.ko("The number of dice must be at least one!");
@@ -18,7 +28,7 @@ public class DiceDistributionSimulatorUseCase {
                 request.getMinimumDiceSides(),
                 request.getDiceSides(),
                 request.getNumberOfDice(),
-                request.getNumberOfRolls());
+                request.getNumberOfRolls(), this.numberGenerator);
         final Map<Integer, Integer> resultMap = diceDistributionSimulation.execute();
         return DiceDistributionSimulationResponse.ok(resultMap);
     }
