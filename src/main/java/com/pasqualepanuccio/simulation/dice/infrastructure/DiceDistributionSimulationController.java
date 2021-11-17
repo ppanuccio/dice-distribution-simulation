@@ -4,14 +4,17 @@ import com.pasqualepanuccio.simulation.dice.domain.DiceDistributionSimulationReq
 import com.pasqualepanuccio.simulation.dice.domain.DiceDistributionSimulationResponse;
 import com.pasqualepanuccio.simulation.dice.domain.DiceDistributionSimulatorUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class DiceDistributionSimulationController {
 
+    public static final int NUMBER_OF_MINIMUM_DICE_SIDES = 1;
     private final DiceDistributionSimulatorUseCase diceDistributionSimulatorUseCase;
 
     @Autowired
@@ -25,7 +28,7 @@ public class DiceDistributionSimulationController {
             @RequestParam String diceSides,
             @RequestParam String numberOfRolls) {
         DiceDistributionSimulationRequest request = new DiceDistributionSimulationRequest(
-                1,
+                NUMBER_OF_MINIMUM_DICE_SIDES,
                 Integer.parseInt(diceSides),
                 Integer.parseInt(numberOfDice),
                 Integer.parseInt(numberOfRolls));
@@ -33,7 +36,8 @@ public class DiceDistributionSimulationController {
         if (simulationResponse.isOk()) {
             return ResponseEntity.ok(simulationResponse.getMap());
         } else {
-            return ResponseEntity.badRequest().body(simulationResponse.getErrorMessage());
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, simulationResponse.getErrorMessage());
         }
     }
 }

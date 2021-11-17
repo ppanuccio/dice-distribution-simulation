@@ -25,4 +25,20 @@ class DiceDistributionSimulationControllerTest {
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
+
+    @Test
+    void return_bad_request_on_missing_parameter() {
+        final ResponseEntity<String> response = restTemplate.exchange(
+                "/dice-distribution-simulation?diceSides=3&numberOfRolls=10", HttpMethod.GET, null, String.class);
+
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void return_bad_request_on_error_validation() {
+        final ResponseEntity<String> response = restTemplate.exchange(
+                "/dice-distribution-simulation?numberOfDice=1&diceSides=3&numberOfRolls=10", HttpMethod.GET, null, String.class);
+
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
 }
