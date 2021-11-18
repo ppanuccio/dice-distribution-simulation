@@ -75,7 +75,7 @@ public class DiceDistributionSimulatorUseCaseTest {
             put(6, 1);
         }};
         DiceDistributionSimulation expectedDiceDistributionSimulation = new DiceDistributionSimulation(
-                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls, fakeRandomGenerator, expectedDiceDistributionMap);
+                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls, expectedDiceDistributionMap);
 
         final DiceDistributionSimulationResponse response = useCase.run(request);
 

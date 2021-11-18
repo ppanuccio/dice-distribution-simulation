@@ -15,19 +15,19 @@ class DiceRelativeDistributionTest {
         final int diceSides = 4;
         NumberGenerator numberGenerator = new FakeRandomGenerator(diceSides);
         List<DiceDistributionSimulation> diceDistributionSimulations = List.of(
-                new DiceDistributionSimulation(1, diceSides, 1, 100, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(1, diceSides, 1, 100, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);
                     put(4, 100);
                 }}),
-                new DiceDistributionSimulation(1, diceSides, 1, 200, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(1, diceSides, 1, 200, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);
                     put(4, 200);
                 }}),
-                new DiceDistributionSimulation(1, diceSides, 1, 200, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(1, diceSides, 1, 200, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);
@@ -52,19 +52,19 @@ class DiceRelativeDistributionTest {
         final int diceSides = 4;
         NumberGenerator numberGenerator = new FakeRandomGenerator(diceSides);
         List<DiceDistributionSimulation> diceDistributionSimulations = List.of(
-                new DiceDistributionSimulation(1, diceSides, 1, 100, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(1, diceSides, 1, 100, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);
                     put(4, 100);
                 }}),
-                new DiceDistributionSimulation(1, diceSides, 1, 200, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(1, diceSides, 1, 200, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);
                     put(4, 200);
                 }}),
-                new DiceDistributionSimulation(1, diceSides, 1, 200, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(1, diceSides, 1, 200, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);

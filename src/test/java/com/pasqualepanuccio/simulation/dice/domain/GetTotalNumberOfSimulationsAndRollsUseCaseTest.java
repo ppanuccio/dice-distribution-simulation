@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GetTotalNumberOfSimulationsAndRollsUseCaseTest {
 
-    private DiceDistributionSimulationRepository diceDistributionSimulationRepository = Mockito.mock(DiceDistributionSimulationRepository.class);
+    private final DiceDistributionSimulationRepository diceDistributionSimulationRepository = Mockito.mock(DiceDistributionSimulationRepository.class);
     private final GetTotalNumberOfSimulationsAndRollsUseCase useCase = new GetTotalNumberOfSimulationsAndRollsUseCase(diceDistributionSimulationRepository);
 
     @Test
@@ -21,11 +21,10 @@ class GetTotalNumberOfSimulationsAndRollsUseCaseTest {
         int diceSides = 6;
         int minimumDiceSides = 1;
         int numberOfRolls = 10;
-        NumberGenerator numberGenerator = new FakeRandomGenerator(diceSides);
         Mockito.when(diceDistributionSimulationRepository.findAll()).thenReturn(List.of(
-                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls, numberGenerator, emptyMap()),
-                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls * 2, numberGenerator, emptyMap()),
-                new DiceDistributionSimulation(minimumDiceSides, 4, 1, numberOfRolls, numberGenerator, emptyMap())));
+                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls, emptyMap()),
+                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls * 2, emptyMap()),
+                new DiceDistributionSimulation(minimumDiceSides, 4, 1, numberOfRolls, emptyMap())));
 
         TotalByDiceNumberAndDiceSides totalByDiceNumberAndDiceSides = useCase.run();
 
@@ -42,21 +41,20 @@ class GetTotalNumberOfSimulationsAndRollsUseCaseTest {
         int diceSides = 4;
         int minimumDiceSides = 1;
         int numberOfRolls = 1;
-        NumberGenerator numberGenerator = new FakeRandomGenerator(diceSides);
         Mockito.when(diceDistributionSimulationRepository.findAll()).thenReturn(List.of(
-                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);
                     put(4, numberOfRolls);
                 }}),
-                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls * 2, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(minimumDiceSides, diceSides, diceNumber, numberOfRolls * 2, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);
                     put(4, numberOfRolls * 2);
                 }}),
-                new DiceDistributionSimulation(minimumDiceSides, 5, 1, numberOfRolls, numberGenerator, new HashMap<>() {{
+                new DiceDistributionSimulation(minimumDiceSides, 5, 1, numberOfRolls, new HashMap<>() {{
                     put(1, 0);
                     put(2, 0);
                     put(3, 0);

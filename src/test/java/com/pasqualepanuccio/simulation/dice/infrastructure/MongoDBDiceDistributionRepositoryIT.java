@@ -21,7 +21,7 @@ class MongoDBDiceDistributionRepositoryIT {
 
     @Test
     public void insert() {
-        DiceDistributionSimulation diceDistributionSimulation = new DiceDistributionSimulation(1, 6, 1, 1, null, Collections.emptyMap());
+        DiceDistributionSimulation diceDistributionSimulation = new DiceDistributionSimulation(1, 6, 1, 1, Collections.emptyMap());
 
         mongoTemplate.insert(diceDistributionSimulation, MongoDBDiceDistributionSimulationRepository.DICE_DISTRIBUTION_SIMULATION_COLLECTION_NAME);
 

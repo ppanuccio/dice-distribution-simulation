@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class DiceDistributionSimulation {
@@ -14,16 +13,14 @@ public class DiceDistributionSimulation {
     private final int diceSides;
     private final int numberOfDice;
     private int numberOfRolls;
-    private NumberGenerator numberGenerator;
     private Map<Integer, Integer> diceDistribution;
 
     public DiceDistributionSimulation(int minimumDiceSides, int diceSides, int numberOfDice, int numberOfRolls,
-                                      NumberGenerator numberGenerator, Map<Integer, Integer> diceDistribution) {
+                                      Map<Integer, Integer> diceDistribution) {
         this.minimumDiceSides = minimumDiceSides;
         this.diceSides = diceSides;
         this.numberOfDice = numberOfDice;
         this.numberOfRolls = numberOfRolls;
-        this.numberGenerator = numberGenerator;
         this.diceDistribution = diceDistribution;
     }
 
@@ -43,31 +40,14 @@ public class DiceDistributionSimulation {
         return numberOfRolls;
     }
 
-    public NumberGenerator getNumberGenerator() {
-        return numberGenerator;
-    }
-
     public Map<Integer, Integer> getDiceDistribution() {
         return diceDistribution;
     }
 
-    public void addRolls(int numberOfRolls) {
-        this.numberOfRolls += numberOfRolls;
-    }
-
-    public void execute() {
-        final List<Dice> dice = diceList(numberOfDice, minimumDiceSides, diceSides, numberGenerator);
+    public void execute(List<Dice> dice) {
         IntStream.range(0, numberOfRolls)
                 .mapToObj(l -> new DiceRollExecution(dice).execute())
                 .forEach(i -> diceDistribution.merge(i, 1, Integer::sum));
-    }
-
-    private List<Dice> diceList(int numberOfDice, int minimumDiceSides, int diceSides, NumberGenerator numberGenerator) {
-        return IntStream.range(0, numberOfDice)
-                .mapToObj(i -> new Dice(
-                        minimumDiceSides,
-                        diceSides, numberGenerator))
-                .collect(Collectors.toList());
     }
 
     @Override

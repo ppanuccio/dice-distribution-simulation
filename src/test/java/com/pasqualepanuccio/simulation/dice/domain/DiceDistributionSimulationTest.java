@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class DiceDistributionSimulationTest {
@@ -14,15 +15,16 @@ class DiceDistributionSimulationTest {
     @Test
     void dice_distribution_simulation() {
         final int numberOfDice = 1;
-        final int numberOfMinimumDiceSides = 1;
+        final int minimumDiceSides = 1;
         final int numberOfRolls = 10;
         int maxValue = numberOfDice * NUMBER_OF_DICE_SIDES;
         int minValue = numberOfDice;
         Map<Integer, Integer> diceDistributionMap = initialiseMap();
         DiceDistributionSimulation diceDistributionSimulation = new DiceDistributionSimulation(
-                numberOfMinimumDiceSides, NUMBER_OF_DICE_SIDES, numberOfDice, numberOfRolls, numberGenerator, diceDistributionMap);
+                minimumDiceSides, NUMBER_OF_DICE_SIDES, numberOfDice, numberOfRolls, diceDistributionMap);
+        List<Dice> diceList = List.of(new Dice(minimumDiceSides, NUMBER_OF_DICE_SIDES, numberGenerator));
 
-        diceDistributionSimulation.execute();
+        diceDistributionSimulation.execute(diceList);
 
         Assertions.assertThat(diceDistributionSimulation.getDiceDistribution().entrySet().size()).isEqualTo(maxValue - minValue + 1);
         Assertions.assertThat(diceDistributionSimulation.getDiceDistribution().get(NUMBER_OF_DICE_SIDES)).isEqualTo(numberOfRolls);

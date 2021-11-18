@@ -1,5 +1,6 @@
 package com.pasqualepanuccio.simulation.dice.domain;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -14,10 +15,6 @@ public class DiceDistributionSimulatorUseCase {
                                             NumberGenerator numberGenerator) {
         this.diceDistributionSimulationRepository = diceDistributionSimulationRepository;
         this.numberGenerator = numberGenerator;
-    }
-
-    public DiceDistributionSimulationRepository getDiceDistributionSimulationRepository() {
-        return diceDistributionSimulationRepository;
     }
 
     public NumberGenerator getNumberGenerator() {
@@ -41,8 +38,9 @@ public class DiceDistributionSimulatorUseCase {
                     request.getMinimumDiceSides(),
                     request.getDiceSides(),
                     request.getNumberOfDice(),
-                    request.getNumberOfRolls(), this.numberGenerator, diceDistribution);
-            diceDistributionSimulation.execute();
+                    request.getNumberOfRolls(), diceDistribution);
+            List<Dice> dice = diceList(request.getNumberOfDice(), request.getMinimumDiceSides(), request.getMinimumDiceSides());
+            diceDistributionSimulation.execute(dice);
             diceDistributionSimulationRepository.save(diceDistributionSimulation);
             return DiceDistributionSimulationResponse.ok(diceDistributionSimulation.getDiceDistribution());
         } catch (Exception e) {
@@ -55,5 +53,13 @@ public class DiceDistributionSimulatorUseCase {
         return IntStream.range(numberOfDice, maxSumValue + 1)
                 .boxed()
                 .collect(Collectors.toMap(Function.identity(), i -> 0));
+    }
+
+    private List<Dice> diceList(int numberOfDice, int minimumDiceSides, int diceSides) {
+        return IntStream.range(0, numberOfDice)
+                .mapToObj(i -> new Dice(
+                        minimumDiceSides,
+                        diceSides, numberGenerator))
+                .collect(Collectors.toList());
     }
 }
