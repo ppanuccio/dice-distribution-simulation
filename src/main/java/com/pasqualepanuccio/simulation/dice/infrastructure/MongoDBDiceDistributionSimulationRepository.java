@@ -6,12 +6,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.List;
 
-public class MongoDBDiceDistributionRepository implements DiceDistributionSimulationRepository {
+public class MongoDBDiceDistributionSimulationRepository implements DiceDistributionSimulationRepository {
 
     public static final String DICE_DISTRIBUTION_SIMULATION_COLLECTION_NAME = "diceDistributionSimulation";
     private final MongoTemplate mongoTemplate;
 
-    public MongoDBDiceDistributionRepository(MongoTemplate mongoTemplate) {
+    public MongoDBDiceDistributionSimulationRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

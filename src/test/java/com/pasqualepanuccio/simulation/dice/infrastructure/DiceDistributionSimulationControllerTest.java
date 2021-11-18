@@ -1,17 +1,22 @@
 package com.pasqualepanuccio.simulation.dice.infrastructure;
 
+import com.pasqualepanuccio.simulation.dice.DiceApplication;
+import com.pasqualepanuccio.simulation.dice.domain.DiceDistributionSimulationRepository;
 import com.pasqualepanuccio.simulation.dice.domain.TotalByDiceNumberAndDiceSides;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {DiceApplication.class, DiceDistributionSimulationControllerTest.TestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class DiceDistributionSimulationControllerTest {
 
     @Autowired
@@ -49,5 +54,14 @@ class DiceDistributionSimulationControllerTest {
                 "/dice-relative-distribution", HttpMethod.GET, null, TotalByDiceNumberAndDiceSides.class);
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Configuration
+    public static class TestConfig {
+        @Bean
+        @Primary
+        public DiceDistributionSimulationRepository inMemoryDiceDistributionSimulationRepository() {
+            return new InMemoryDiceDistributionRepository();
+        }
     }
 }

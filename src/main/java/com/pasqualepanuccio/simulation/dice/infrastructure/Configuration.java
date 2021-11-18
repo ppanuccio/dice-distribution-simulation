@@ -10,10 +10,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
-
+    
     @Bean
-    public DiceDistributionSimulationRepository diceDistributionSimulationRepository() {
-        return new InMemoryDiceDistributionRepository();
+    public DiceDistributionSimulationRepository mongoDiceDistributionSimulationRepository(MongoTemplate mongoTemplate) {
+        return new MongoDBDiceDistributionSimulationRepository(mongoTemplate);
     }
 
     @Bean

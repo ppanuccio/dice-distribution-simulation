@@ -23,9 +23,9 @@ class MongoDBDiceDistributionRepositoryIT {
     public void insert() {
         DiceDistributionSimulation diceDistributionSimulation = new DiceDistributionSimulation(1, 6, 1, 1, null, Collections.emptyMap());
 
-        mongoTemplate.insert(diceDistributionSimulation, MongoDBDiceDistributionRepository.DICE_DISTRIBUTION_SIMULATION_COLLECTION_NAME);
+        mongoTemplate.insert(diceDistributionSimulation, MongoDBDiceDistributionSimulationRepository.DICE_DISTRIBUTION_SIMULATION_COLLECTION_NAME);
 
-        assertThat(mongoTemplate.findAll(DiceDistributionSimulation.class, MongoDBDiceDistributionRepository.DICE_DISTRIBUTION_SIMULATION_COLLECTION_NAME)).extracting("diceSides")
+        assertThat(mongoTemplate.findAll(DiceDistributionSimulation.class, MongoDBDiceDistributionSimulationRepository.DICE_DISTRIBUTION_SIMULATION_COLLECTION_NAME)).extracting("diceSides")
                 .containsOnly(6);
     }
 }
