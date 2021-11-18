@@ -8,25 +8,25 @@ import java.util.Map;
 
 class DiceDistributionSimulationTest {
 
-    private final NumberGenerator numberGenerator = new FakeRandomGenerator();
+    public static final int NUMBER_OF_DICE_SIDES = 6;
+    private final NumberGenerator numberGenerator = new FakeRandomGenerator(NUMBER_OF_DICE_SIDES);
 
     @Test
     void dice_distribution_simulation() {
         final int numberOfDice = 1;
-        final int numberOfDiceSides = 6;
         final int numberOfMinimumDiceSides = 1;
         final int numberOfRolls = 10;
-        int maxValue = numberOfDice * numberOfDiceSides;
+        int maxValue = numberOfDice * NUMBER_OF_DICE_SIDES;
         int minValue = numberOfDice;
         Map<Integer, Integer> diceDistributionMap = initialiseMap();
         DiceDistributionSimulation diceDistributionSimulation = new DiceDistributionSimulation(
-                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls, numberGenerator, diceDistributionMap);
+                numberOfMinimumDiceSides, NUMBER_OF_DICE_SIDES, numberOfDice, numberOfRolls, numberGenerator, diceDistributionMap);
 
         diceDistributionSimulation.execute();
 
         Assertions.assertThat(diceDistributionSimulation.getDiceDistribution().entrySet().size()).isEqualTo(maxValue - minValue + 1);
-        Assertions.assertThat(diceDistributionSimulation.getDiceDistribution().get(numberOfDiceSides)).isEqualTo(numberOfRolls);
-        Assertions.assertThat(diceDistributionSimulation.getDiceDistribution().get(numberOfDiceSides - 1)).isEqualTo(0);
+        Assertions.assertThat(diceDistributionSimulation.getDiceDistribution().get(NUMBER_OF_DICE_SIDES)).isEqualTo(numberOfRolls);
+        Assertions.assertThat(diceDistributionSimulation.getDiceDistribution().get(NUMBER_OF_DICE_SIDES - 1)).isEqualTo(0);
     }
 
     private Map<Integer, Integer> initialiseMap() {

@@ -17,9 +17,8 @@ public class GetTotalNumberOfSimulationsAndRollsUseCase {
     public TotalByDiceNumberAndDiceSides run() {
 
         List<DiceDistributionSimulation> all = diceDistributionSimulationRepository.findAll();
-        Map<Pair<Integer, Integer>, List<DiceDistributionSimulation>> grouped =
-                all.stream()
-                        .collect(Collectors.groupingBy(d -> Pair.of(d.getNumberOfDice(), d.getDiceSides())));
+        Map<Pair<Integer, Integer>, List<DiceDistributionSimulation>> grouped = all.stream()
+                .collect(Collectors.groupingBy(d -> Pair.of(d.getNumberOfDice(), d.getDiceSides())));
 
         List<SumByDiceNumberAndDiceSides> sumByDiceNumberAndDiceSides = grouped.keySet().stream()
                 .map(pair -> getSumByDiceNumberAndDiceSides(pair, grouped.get(pair)))
@@ -33,7 +32,11 @@ public class GetTotalNumberOfSimulationsAndRollsUseCase {
         int numberOfRolls = diceDistributionSimulations.stream()
                 .map(DiceDistributionSimulation::getNumberOfRolls)
                 .reduce(0, Integer::sum);
-        SumByDiceNumberAndDiceSides.Details details = new SumByDiceNumberAndDiceSides.Details(numberOfSimulation, numberOfRolls);
+        DiceRelativeDistribution diceRelativeDistribution = new DiceRelativeDistribution(diceDistributionSimulations, numberOfRolls);
+        SumByDiceNumberAndDiceSides.Details details = new SumByDiceNumberAndDiceSides.Details(
+                numberOfSimulation,
+                numberOfRolls,
+                diceRelativeDistribution.relativeDistribution());
         return new SumByDiceNumberAndDiceSides(aggregateKey, details);
     }
 }

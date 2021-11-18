@@ -4,7 +4,10 @@ import java.util.List;
 
 public class TotalByDiceNumberAndDiceSides {
 
-    private final List<SumByDiceNumberAndDiceSides> sumByDiceNumberAndDiceSides;
+    private List<SumByDiceNumberAndDiceSides> sumByDiceNumberAndDiceSides;
+
+    private TotalByDiceNumberAndDiceSides() {
+    }
 
     public TotalByDiceNumberAndDiceSides(List<SumByDiceNumberAndDiceSides> sumByDiceNumberAndDiceSides) {
         this.sumByDiceNumberAndDiceSides = sumByDiceNumberAndDiceSides;

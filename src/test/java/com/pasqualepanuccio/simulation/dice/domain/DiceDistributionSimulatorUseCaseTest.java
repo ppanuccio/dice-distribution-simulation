@@ -9,18 +9,18 @@ import java.util.Map;
 
 public class DiceDistributionSimulatorUseCaseTest {
 
-    private NumberGenerator fakeRandomGenerator = new FakeRandomGenerator();
-    private DiceDistributionSimulationRepository diceDistributionSimulationRepository = Mockito.mock(DiceDistributionSimulationRepository.class);
-    private DiceDistributionSimulatorUseCase useCase = new DiceDistributionSimulatorUseCase(diceDistributionSimulationRepository, fakeRandomGenerator);
+    public static final int NUMBER_OF_DICE_SIDES = 6;
+    private final NumberGenerator fakeRandomGenerator = new FakeRandomGenerator(NUMBER_OF_DICE_SIDES);
+    private final DiceDistributionSimulationRepository diceDistributionSimulationRepository = Mockito.mock(DiceDistributionSimulationRepository.class);
+    private final DiceDistributionSimulatorUseCase useCase = new DiceDistributionSimulatorUseCase(diceDistributionSimulationRepository, fakeRandomGenerator);
 
     @Test
     void number_of_dice_must_be_at_least_one() {
         final int numberOfDice = 0;
-        final int numberOfDiceSides = 6;
         final int numberOfMinimumDiceSides = 1;
         final int numberOfRolls = 10;
         DiceDistributionSimulationRequest request = new DiceDistributionSimulationRequest(
-                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls);
+                numberOfMinimumDiceSides, NUMBER_OF_DICE_SIDES, numberOfDice, numberOfRolls);
 
         final DiceDistributionSimulationResponse response = useCase.run(request);
 

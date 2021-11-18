@@ -1,9 +1,6 @@
 package com.pasqualepanuccio.simulation.dice.infrastructure;
 
-import com.pasqualepanuccio.simulation.dice.domain.DiceDistributionSimulationRepository;
-import com.pasqualepanuccio.simulation.dice.domain.DiceDistributionSimulatorUseCase;
-import com.pasqualepanuccio.simulation.dice.domain.NumberGenerator;
-import com.pasqualepanuccio.simulation.dice.domain.RandomNumberGenerator;
+import com.pasqualepanuccio.simulation.dice.domain.*;
 import org.springframework.context.annotation.Bean;
 
 @org.springframework.context.annotation.Configuration
@@ -27,4 +24,9 @@ public class Configuration {
         return new DiceDistributionSimulatorUseCase(diceDistributionSimulationRepository, numberGenerator);
     }
 
+    @Bean
+    public GetTotalNumberOfSimulationsAndRollsUseCase getTotalNumberOfSimulationsAndRollsUseCase(
+            DiceDistributionSimulationRepository diceDistributionSimulationRepository) {
+        return new GetTotalNumberOfSimulationsAndRollsUseCase(diceDistributionSimulationRepository);
+    }
 }

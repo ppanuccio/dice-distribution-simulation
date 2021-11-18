@@ -1,5 +1,6 @@
 package com.pasqualepanuccio.simulation.dice.infrastructure;
 
+import com.pasqualepanuccio.simulation.dice.domain.TotalByDiceNumberAndDiceSides;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,13 @@ class DiceDistributionSimulationControllerTest {
                 "/dice-distribution-simulation?numberOfDice=1&diceSides=3&numberOfRolls=10", HttpMethod.GET, null, String.class);
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void return_dice_relative_distribution() {
+        final ResponseEntity<TotalByDiceNumberAndDiceSides> response = restTemplate.exchange(
+                "/dice-relative-distribution", HttpMethod.GET, null, TotalByDiceNumberAndDiceSides.class);
+
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }
