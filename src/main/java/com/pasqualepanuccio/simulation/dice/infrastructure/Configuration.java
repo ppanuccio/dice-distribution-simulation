@@ -5,12 +5,19 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.pasqualepanuccio.simulation.dice.domain.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 @org.springframework.context.annotation.Configuration
 public class Configuration {
-    
+
+    @Value("${mongodb.connection}")
+    private String connectionString;
+
+    @Value("${mongodb.db-name}")
+    private String dbName;
+
     @Bean
     public DiceDistributionSimulationRepository mongoDiceDistributionSimulationRepository(MongoTemplate mongoTemplate) {
         return new MongoDBDiceDistributionSimulationRepository(mongoTemplate);
@@ -37,7 +44,7 @@ public class Configuration {
 
     @Bean
     public MongoClient mongo() {
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/diceDistribution");
+        ConnectionString connectionString = new ConnectionString(this.connectionString);
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .build();
@@ -47,6 +54,6 @@ public class Configuration {
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        return new MongoTemplate(mongo(), "diceDistribution");
+        return new MongoTemplate(mongo(), this.dbName);
     }
 }
