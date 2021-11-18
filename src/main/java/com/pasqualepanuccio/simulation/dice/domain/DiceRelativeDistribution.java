@@ -8,23 +8,10 @@ import java.util.stream.Collectors;
 
 public class DiceRelativeDistribution {
 
-    private final List<DiceDistributionSimulation> diceDistributionSimulations;
-    private final int totalRolls;
-
-    public DiceRelativeDistribution(List<DiceDistributionSimulation> diceDistributionSimulations, int totalRolls) {
-        this.diceDistributionSimulations = diceDistributionSimulations;
-        this.totalRolls = totalRolls;
+    public DiceRelativeDistribution() {
     }
 
-    public List<DiceDistributionSimulation> getDiceDistributionSimulations() {
-        return diceDistributionSimulations;
-    }
-
-    public int getTotalRolls() {
-        return totalRolls;
-    }
-
-    public Map<Integer, Integer> absoluteDistribution() {
+    public Map<Integer, Integer> absoluteDistribution(List<DiceDistributionSimulation> diceDistributionSimulations) {
         return diceDistributionSimulations.stream()
                 .map(DiceDistributionSimulation::getDiceDistribution)
                 .flatMap(map -> map.entrySet().stream())
@@ -34,13 +21,13 @@ public class DiceRelativeDistribution {
                         Integer::sum));
     }
 
-    public Map<Integer, Double> relativeDistribution() {
-        final Map<Integer, Integer> total = absoluteDistribution();
+    public Map<Integer, Double> relativeDistribution(List<DiceDistributionSimulation> diceDistributionSimulations, int totalRolls) {
+        final Map<Integer, Integer> total = absoluteDistribution(diceDistributionSimulations);
         return total.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, v -> makeRelative(v)));
+                .collect(Collectors.toMap(Map.Entry::getKey, v -> makeRelative(v, totalRolls)));
     }
 
-    private Double makeRelative(Map.Entry<Integer, Integer> v) {
+    private Double makeRelative(Map.Entry<Integer, Integer> v, int totalRolls) {
         final BigDecimal occurrences = BigDecimal.valueOf(v.getValue()).setScale(2);
         final BigDecimal total = BigDecimal.valueOf(totalRolls).setScale(2);
         final BigDecimal percentage = occurrences.divide(total).setScale(2, RoundingMode.HALF_UP);

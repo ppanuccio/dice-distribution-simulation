@@ -9,13 +9,14 @@ import java.util.stream.Collectors;
 public class DiceRelativeDistributionSummaryUseCase {
 
     private final DiceDistributionSimulationRepository diceDistributionSimulationRepository;
+    private final DiceRelativeDistribution diceRelativeDistribution;
 
-    public DiceRelativeDistributionSummaryUseCase(DiceDistributionSimulationRepository diceDistributionSimulationRepository) {
+    public DiceRelativeDistributionSummaryUseCase(DiceDistributionSimulationRepository diceDistributionSimulationRepository, DiceRelativeDistribution diceRelativeDistribution) {
         this.diceDistributionSimulationRepository = diceDistributionSimulationRepository;
+        this.diceRelativeDistribution = diceRelativeDistribution;
     }
 
     public TotalByDiceNumberAndDiceSides run() {
-
         List<DiceDistributionSimulation> all = diceDistributionSimulationRepository.findAll();
         Map<Pair<Integer, Integer>, List<DiceDistributionSimulation>> grouped = all.stream()
                 .collect(Collectors.groupingBy(d -> Pair.of(d.getNumberOfDice(), d.getDiceSides())));
@@ -33,11 +34,11 @@ public class DiceRelativeDistributionSummaryUseCase {
         int numberOfRolls = diceDistributionSimulations.stream()
                 .map(DiceDistributionSimulation::getNumberOfRolls)
                 .reduce(0, Integer::sum);
-        DiceRelativeDistribution diceRelativeDistribution = new DiceRelativeDistribution(diceDistributionSimulations, numberOfRolls);
+        final Map<Integer, Double> relativeDistribution = diceRelativeDistribution.relativeDistribution(diceDistributionSimulations, numberOfRolls);
         SumByDiceNumberAndDiceSides.Details details = new SumByDiceNumberAndDiceSides.Details(
                 numberOfSimulation,
                 numberOfRolls,
-                diceRelativeDistribution.relativeDistribution());
+                relativeDistribution);
         return new SumByDiceNumberAndDiceSides(aggregateKey, details);
     }
 }

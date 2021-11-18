@@ -42,9 +42,15 @@ public class Configuration {
     }
 
     @Bean
+    public DiceRelativeDistribution diceRelativeDistribution() {
+        return new DiceRelativeDistribution();
+    }
+
+    @Bean
     public DiceRelativeDistributionSummaryUseCase getTotalNumberOfSimulationsAndRollsUseCase(
-            DiceDistributionSimulationRepository diceDistributionSimulationRepository) {
-        return new DiceRelativeDistributionSummaryUseCase(diceDistributionSimulationRepository);
+            DiceDistributionSimulationRepository diceDistributionSimulationRepository,
+            DiceRelativeDistribution diceRelativeDistribution) {
+        return new DiceRelativeDistributionSummaryUseCase(diceDistributionSimulationRepository, diceRelativeDistribution);
     }
 
     @Bean

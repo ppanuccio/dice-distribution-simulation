@@ -10,10 +10,11 @@ import java.util.Map;
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GetTotalNumberOfSimulationsAndRollsUseCaseTest {
+class DiceRelativeDistributionSummaryUseCaseTest {
 
     private final DiceDistributionSimulationRepository diceDistributionSimulationRepository = Mockito.mock(DiceDistributionSimulationRepository.class);
-    private final DiceRelativeDistributionSummaryUseCase useCase = new DiceRelativeDistributionSummaryUseCase(diceDistributionSimulationRepository);
+    private final DiceRelativeDistribution diceRelativeDistribution = new DiceRelativeDistribution();
+    private final DiceRelativeDistributionSummaryUseCase useCase = new DiceRelativeDistributionSummaryUseCase(diceDistributionSimulationRepository, diceRelativeDistribution);
 
     @Test
     void return_total_simulations_and_rolls() {
