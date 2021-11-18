@@ -4,13 +4,13 @@ import java.util.List;
 
 public class TotalByDiceNumberAndDiceSides {
 
-    private final List<DiceDistributionSimulation> diceDistributionSimulations;
+    private final List<SumByDiceNumberAndDiceSides> sumByDiceNumberAndDiceSides;
 
-    public TotalByDiceNumberAndDiceSides(List<DiceDistributionSimulation> diceDistributionSimulations) {
-        this.diceDistributionSimulations = diceDistributionSimulations;
+    public TotalByDiceNumberAndDiceSides(List<SumByDiceNumberAndDiceSides> sumByDiceNumberAndDiceSides) {
+        this.sumByDiceNumberAndDiceSides = sumByDiceNumberAndDiceSides;
     }
 
-    public List<DiceDistributionSimulation> getDiceDistributionSimulations() {
-        return diceDistributionSimulations;
+    public List<SumByDiceNumberAndDiceSides> getSumByDiceNumberAndDiceSides() {
+        return sumByDiceNumberAndDiceSides;
     }
 }
