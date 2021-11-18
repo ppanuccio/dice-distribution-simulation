@@ -14,11 +14,11 @@ public class DiceDistributionSimulationController {
 
     public static final int NUMBER_OF_MINIMUM_DICE_SIDES = 1;
     private final DiceDistributionSimulatorUseCase diceDistributionSimulatorUseCase;
-    private final GetTotalNumberOfSimulationsAndRollsUseCase getTotalNumberOfSimulationsAndRollsUseCase;
+    private final DiceRelativeDistributionSummaryUseCase getTotalNumberOfSimulationsAndRollsUseCase;
 
     @Autowired
     public DiceDistributionSimulationController(DiceDistributionSimulatorUseCase diceDistributionSimulatorUseCase,
-                                                GetTotalNumberOfSimulationsAndRollsUseCase getTotalNumberOfSimulationsAndRollsUseCase) {
+                                                DiceRelativeDistributionSummaryUseCase getTotalNumberOfSimulationsAndRollsUseCase) {
         this.diceDistributionSimulatorUseCase = diceDistributionSimulatorUseCase;
         this.getTotalNumberOfSimulationsAndRollsUseCase = getTotalNumberOfSimulationsAndRollsUseCase;
     }

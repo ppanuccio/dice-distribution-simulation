@@ -29,17 +29,22 @@ public class Configuration {
     }
 
     @Bean
-    public DiceDistributionSimulatorUseCase diceDistributionSimulatorUseCase(
-            DiceDistributionSimulationRepository diceDistributionSimulationRepository,
-            NumberGenerator numberGenerator
-    ) {
-        return new DiceDistributionSimulatorUseCase(diceDistributionSimulationRepository, numberGenerator);
+    public Simulator diceDistributionSimulator(NumberGenerator numberGenerator) {
+        return new DiceDistributionSimulator(numberGenerator);
     }
 
     @Bean
-    public GetTotalNumberOfSimulationsAndRollsUseCase getTotalNumberOfSimulationsAndRollsUseCase(
+    public DiceDistributionSimulatorUseCase diceDistributionSimulatorUseCase(
+            Simulator diceDistributionSimulator,
+            DiceDistributionSimulationRepository diceDistributionSimulationRepository
+    ) {
+        return new DiceDistributionSimulatorUseCase(diceDistributionSimulator, diceDistributionSimulationRepository);
+    }
+
+    @Bean
+    public DiceRelativeDistributionSummaryUseCase getTotalNumberOfSimulationsAndRollsUseCase(
             DiceDistributionSimulationRepository diceDistributionSimulationRepository) {
-        return new GetTotalNumberOfSimulationsAndRollsUseCase(diceDistributionSimulationRepository);
+        return new DiceRelativeDistributionSummaryUseCase(diceDistributionSimulationRepository);
     }
 
     @Bean
@@ -53,7 +58,7 @@ public class Configuration {
     }
 
     @Bean
-    public MongoTemplate mongoTemplate() throws Exception {
+    public MongoTemplate mongoTemplate() {
         return new MongoTemplate(mongo(), this.dbName);
     }
 }

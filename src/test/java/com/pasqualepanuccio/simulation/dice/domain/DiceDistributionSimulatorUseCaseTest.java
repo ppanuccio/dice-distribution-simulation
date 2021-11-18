@@ -1,18 +1,26 @@
 package com.pasqualepanuccio.simulation.dice.domain;
 
+import com.pasqualepanuccio.simulation.dice.infrastructure.InMemoryDiceDistributionRepository;
+import com.pasqualepanuccio.simulation.dice.infrastructure.StubDiceDistributionSimulator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class DiceDistributionSimulatorUseCaseTest {
 
     public static final int NUMBER_OF_DICE_SIDES = 6;
-    private final NumberGenerator fakeRandomGenerator = new FakeRandomGenerator(NUMBER_OF_DICE_SIDES);
-    private final DiceDistributionSimulationRepository diceDistributionSimulationRepository = Mockito.mock(DiceDistributionSimulationRepository.class);
-    private final DiceDistributionSimulatorUseCase useCase = new DiceDistributionSimulatorUseCase(diceDistributionSimulationRepository, fakeRandomGenerator);
+    public static final HashMap<Integer, Integer> STUBBED_DICE_DISTRIBUTION_MAP = new HashMap<>() {{
+        put(1, 0);
+        put(2, 0);
+        put(3, 0);
+        put(4, 0);
+        put(5, 0);
+        put(6, 1);
+    }};
+    private final DiceDistributionSimulationRepository diceDistributionSimulationRepository = new InMemoryDiceDistributionRepository();
+    private final Simulator diceDistributionSimulator = new StubDiceDistributionSimulator(STUBBED_DICE_DISTRIBUTION_MAP);
+    private final DiceDistributionSimulatorUseCase useCase = new DiceDistributionSimulatorUseCase(diceDistributionSimulator, diceDistributionSimulationRepository);
 
     @Test
     void number_of_dice_must_be_at_least_one() {
@@ -66,20 +74,12 @@ public class DiceDistributionSimulatorUseCaseTest {
         final int numberOfRolls = 1;
         DiceDistributionSimulationRequest request = new DiceDistributionSimulationRequest(
                 numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls);
-        Map<Integer, Integer> expectedDiceDistributionMap = new HashMap<>() {{
-            put(1, 0);
-            put(2, 0);
-            put(3, 0);
-            put(4, 0);
-            put(5, 0);
-            put(6, 1);
-        }};
         DiceDistributionSimulation expectedDiceDistributionSimulation = new DiceDistributionSimulation(
-                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls, expectedDiceDistributionMap);
+                numberOfMinimumDiceSides, numberOfDiceSides, numberOfDice, numberOfRolls, STUBBED_DICE_DISTRIBUTION_MAP);
 
         final DiceDistributionSimulationResponse response = useCase.run(request);
 
         Assertions.assertThat(response.isOk()).isTrue();
-        Mockito.verify(diceDistributionSimulationRepository).save(expectedDiceDistributionSimulation);
+        Assertions.assertThat(diceDistributionSimulationRepository.findAll().get(0)).isEqualTo(expectedDiceDistributionSimulation);
     }
 }

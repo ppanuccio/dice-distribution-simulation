@@ -1,5 +1,6 @@
 package com.pasqualepanuccio.simulation.dice.domain;
 
+import com.pasqualepanuccio.simulation.dice.infrastructure.StubRandomGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ class DiceTest {
 
     public static final int MIN_SIDES_NUMBER = 1;
     public static final int DICE_SIDES = 6;
-    private final NumberGenerator numberGenerator = new FakeRandomGenerator(DICE_SIDES);
+    private final NumberGenerator numberGenerator = new StubRandomGenerator(DICE_SIDES);
 
     @Test
     void number_of_sides_must_be_greater_than_minimum_side_number() {

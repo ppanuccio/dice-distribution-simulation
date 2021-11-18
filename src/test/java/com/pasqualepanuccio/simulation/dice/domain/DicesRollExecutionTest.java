@@ -1,5 +1,6 @@
 package com.pasqualepanuccio.simulation.dice.domain;
 
+import com.pasqualepanuccio.simulation.dice.infrastructure.StubRandomGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,7 @@ import java.util.List;
 class DicesRollExecutionTest {
 
     public static final int DICE_SIDES = 6;
-    private final NumberGenerator numberGenerator = new FakeRandomGenerator(DICE_SIDES);
+    private final NumberGenerator numberGenerator = new StubRandomGenerator(DICE_SIDES);
 
     @Test
     void dice_roll_execution() {

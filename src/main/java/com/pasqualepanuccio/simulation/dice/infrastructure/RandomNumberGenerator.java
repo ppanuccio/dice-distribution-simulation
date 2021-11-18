@@ -1,4 +1,6 @@
-package com.pasqualepanuccio.simulation.dice.domain;
+package com.pasqualepanuccio.simulation.dice.infrastructure;
+
+import com.pasqualepanuccio.simulation.dice.domain.NumberGenerator;
 
 import java.util.Random;
 

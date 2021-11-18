@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GetTotalNumberOfSimulationsAndRollsUseCaseTest {
 
     private final DiceDistributionSimulationRepository diceDistributionSimulationRepository = Mockito.mock(DiceDistributionSimulationRepository.class);
-    private final GetTotalNumberOfSimulationsAndRollsUseCase useCase = new GetTotalNumberOfSimulationsAndRollsUseCase(diceDistributionSimulationRepository);
+    private final DiceRelativeDistributionSummaryUseCase useCase = new DiceRelativeDistributionSummaryUseCase(diceDistributionSimulationRepository);
 
     @Test
     void return_total_simulations_and_rolls() {

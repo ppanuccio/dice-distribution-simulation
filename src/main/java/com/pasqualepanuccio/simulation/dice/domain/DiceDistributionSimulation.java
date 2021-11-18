@@ -4,9 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class DiceDistributionSimulation {
     private final int minimumDiceSides;
@@ -42,12 +40,6 @@ public class DiceDistributionSimulation {
 
     public Map<Integer, Integer> getDiceDistribution() {
         return diceDistribution;
-    }
-
-    public void execute(List<Dice> dice) {
-        IntStream.range(0, numberOfRolls)
-                .mapToObj(l -> new DiceRollExecution(dice).execute())
-                .forEach(i -> diceDistribution.merge(i, 1, Integer::sum));
     }
 
     @Override

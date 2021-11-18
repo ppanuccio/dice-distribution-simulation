@@ -1,5 +1,6 @@
 package com.pasqualepanuccio.simulation.dice.domain;
 
+import com.pasqualepanuccio.simulation.dice.infrastructure.StubRandomGenerator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ class DiceRelativeDistributionTest {
     void absolute_distribution() {
         int totalRolls = 300;
         final int diceSides = 4;
-        NumberGenerator numberGenerator = new FakeRandomGenerator(diceSides);
+        NumberGenerator numberGenerator = new StubRandomGenerator(diceSides);
         List<DiceDistributionSimulation> diceDistributionSimulations = List.of(
                 new DiceDistributionSimulation(1, diceSides, 1, 100, new HashMap<>() {{
                     put(1, 0);
@@ -50,7 +51,7 @@ class DiceRelativeDistributionTest {
     void relative_distribution() {
         int totalRolls = 350;
         final int diceSides = 4;
-        NumberGenerator numberGenerator = new FakeRandomGenerator(diceSides);
+        NumberGenerator numberGenerator = new StubRandomGenerator(diceSides);
         List<DiceDistributionSimulation> diceDistributionSimulations = List.of(
                 new DiceDistributionSimulation(1, diceSides, 1, 100, new HashMap<>() {{
                     put(1, 0);

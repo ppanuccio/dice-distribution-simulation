@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GetTotalNumberOfSimulationsAndRollsUseCase {
+public class DiceRelativeDistributionSummaryUseCase {
 
     private final DiceDistributionSimulationRepository diceDistributionSimulationRepository;
 
-    public GetTotalNumberOfSimulationsAndRollsUseCase(DiceDistributionSimulationRepository diceDistributionSimulationRepository) {
+    public DiceRelativeDistributionSummaryUseCase(DiceDistributionSimulationRepository diceDistributionSimulationRepository) {
         this.diceDistributionSimulationRepository = diceDistributionSimulationRepository;
     }
 
@@ -23,6 +23,7 @@ public class GetTotalNumberOfSimulationsAndRollsUseCase {
         List<SumByDiceNumberAndDiceSides> sumByDiceNumberAndDiceSides = grouped.keySet().stream()
                 .map(pair -> getSumByDiceNumberAndDiceSides(pair, grouped.get(pair)))
                 .collect(Collectors.toUnmodifiableList());
+
         return new TotalByDiceNumberAndDiceSides(sumByDiceNumberAndDiceSides);
     }
 
